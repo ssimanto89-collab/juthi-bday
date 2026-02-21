@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Dear Bou ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family: 'Segoe UI', sans-serif;
+  overflow:hidden;
+  background: linear-gradient(-45deg,#ff6a88,#ff99ac,#ffc3a0,#ffdde1);
+  background-size:400% 400%;
+  animation:gradientBG 12s ease infinite;
+  color:white;
+}
+@keyframes gradientBG{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.section{
+  height:100vh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  position:absolute;
+  top:0;
+  left:0;
+  transition:1s ease;
+}
+
+#screen2{ top:100vh; }
+
+h1{
+  width:100%;
+  text-align:center;
+  font-size:40px;
+  margin-bottom:20px;
+  color:#8B004F;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.typing{
+  font-size:22px;
+  border-right:2px solid #5A0033;
+  white-space:nowrap;
+  overflow:hidden;
+  color:#5A0033;
+  font-weight:600;
+}
+
+.swipe{
+  position:absolute;
+  bottom:40px;
+  font-size:14px;
+  color:rgba(90,0,51,0.8);
+}
+
+/* Heart Layout */
+.heart-gallery{
+  position:relative;
+  width:300px;
+  height:260px;
+}
+
+.heart-gallery img{
+  position:absolute;
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.4);
+  opacity:0;
+  transition:1s ease;
+}
+
+/* Heart positioning */
+.heart-gallery img:nth-child(1){ top:0; left:110px;}
+.heart-gallery img:nth-child(2){ top:40px; left:40px;}
+.heart-gallery img:nth-child(3){ top:40px; right:40px;}
+.heart-gallery img:nth-child(4){ top:100px; left:10px;}
+.heart-gallery img:nth-child(5){ top:100px; right:10px;}
+.heart-gallery img:nth-child(6){ top:160px; left:60px;}
+.heart-gallery img:nth-child(7){ top:160px; right:60px;}
+.heart-gallery img:nth-child(8){ top:200px; left:110px;}
+.heart-gallery img:nth-child(9){ top:120px; left:110px;}
+.heart-gallery img:nth-child(10){ top:70px; left:110px;}
+
+.show{ opacity:1 !important; }
+
+/* Slideshow */
+.slideshow{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+.slideshow img{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:2s ease;
+}
+
+.slideshow img.active{
+  opacity:0.4;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Screen 1 -->
+<div class="section" id="screen1">
+  <h1>Babu 💖</h1>
+  <div class="typing" id="typing"></div>
+  <div class="swipe">⬆ Swipe Up</div>
+</div>
+
+<!-- Screen 2 -->
+<div class="section" id="screen2">
+  <h1>Happy Birthday Dear Bou 🎂</h1>
+  <div class="heart-gallery">
+    <img src="photo1.jpg">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
+    <img src="photo4.jpg">
+    <img src="photo5.jpg">
+    <img src="photo6.jpg">
+    <img src="photo7.jpg">
+    <img src="photo8.jpg">
+    <img src="photo9.jpg">
+    <img src="photo10.jpg">
+  </div>
+</div>
+
+<div class="slideshow">
+  <img src="photo1.jpg" class="active">
+  <img src="photo2.jpg">
+  <img src="photo3.jpg">
+  <img src="photo4.jpg">
+  <img src="photo5.jpg">
+</div>
+
+<audio id="bgMusic" src="music.mp3"></audio>
+
+<script>
+
+/* Typing Animation */
+const text = "Babu… I love you forever ❤️";
+let i = 0;
+function typeWriter(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 80);
+  }
+}
+typeWriter();
+
+/* Swipe detection */
+let startY = 0;
+document.addEventListener("touchstart", e=>{
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e=>{
+  let endY = e.changedTouches[0].clientY;
+  if(startY - endY > 50){
+    document.getElementById("screen1").style.top="-100vh";
+    document.getElementById("screen2").style.top="0";
+    startSurprise();
+  }
+});
+
+/* Reveal Heart Photos */
+function startSurprise(){
+  document.getElementById("bgMusic").play();
+  const imgs = document.querySelectorAll(".heart-gallery img");
+  imgs.forEach((img,index)=>{
+    setTimeout(()=>{
+      img.classList.add("show");
+    },index*300);
+  });
+}
+
+/* Cinematic Slideshow */
+let slides = document.querySelectorAll(".slideshow img");
+let current = 0;
+setInterval(()=>{
+  slides[current].classList.remove("active");
+  current = (current+1)%slides.length;
+  slides[current].classList.add("active");
+},4000);
+
+</script>
+
+</body>
+</html>
